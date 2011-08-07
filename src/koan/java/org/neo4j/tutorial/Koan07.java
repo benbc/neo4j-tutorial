@@ -39,22 +39,6 @@ public class Koan07 {
 		Traverser traverser = null;
 
         // YOUR CODE GOES HERE
-		// SNIPPET_START
-
-		traverser = Traversal.description()
-				.relationships(DoctorWhoUniverse.PLAYED, Direction.INCOMING)
-				.breadthFirst()
-				.evaluator(new Evaluator() {
-					public Evaluation evaluate(Path path) {
-						if (path.endNode().hasRelationship(DoctorWhoUniverse.REGENERATED_TO, Direction.BOTH)) {
-							return Evaluation.INCLUDE_AND_CONTINUE;
-						} else {
-							return Evaluation.EXCLUDE_AND_PRUNE;
-						}
-					}
-				}).traverse(theDoctor);
-
-		// SNIPPET_END
 
 		assertThat(traverser.nodes(), containsNumberOfNodes(11));
 	}
@@ -65,27 +49,6 @@ public class Koan07 {
 		Traverser traverser = null;
 
         // YOUR CODE GOES HERE
-		// SNIPPET_START
-
-		traverser = Traversal.description()
-				.relationships(DoctorWhoUniverse.PLAYED, Direction.INCOMING)
-				.depthFirst()
-				.evaluator(new Evaluator() {
-					public Evaluation evaluate(Path path) {
-						if (path.endNode().hasRelationship(DoctorWhoUniverse.REGENERATED_TO, Direction.INCOMING)) {
-							return Evaluation.EXCLUDE_AND_CONTINUE;
-						} else if (!path.endNode().hasRelationship(DoctorWhoUniverse.REGENERATED_TO, Direction.OUTGOING)) {
-							// Catches Richard Hurdnall who played the William
-							// Hartnell's Doctor in The Five Doctors (William
-							// Hartnell had died by then)
-							return Evaluation.EXCLUDE_AND_CONTINUE;
-						} else {
-							return Evaluation.INCLUDE_AND_PRUNE;
-						}
-					}
-				}).traverse(theDoctor);
-
-		// SNIPPET_END
 
 		assertThat(traverser.nodes(), containsOnlyActors("William Hartnell"));
 	}

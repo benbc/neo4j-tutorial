@@ -42,11 +42,6 @@ public class Koan03 {
         Index<Node> characters = null;
 
         // YOUR CODE GOES HERE
-        // SNIPPET_START
-
-        characters = universe.getDatabase().index().forNodes("characters");
-
-        // SNIPPET_END
 
         assertNotNull(characters);
         assertThat(characters, contains("Master", "River Song", "Rose Tyler", "Adam Mitchell", "Jack Harkness", "Mickey Smith", "Donna Noble", "Martha Jones"));
@@ -60,17 +55,6 @@ public class Koan03 {
         assertNull(db.index().forNodes("characters").get("name", "Abigail Pettigrew").getSingle());
 
         // YOUR CODE GOES HERE
-        // SNIPPET_START
-
-        Transaction transaction = db.beginTx();
-        try {
-            db.index().forNodes("characters").add(abigailPettigrew, "name", abigailPettigrew.getProperty("name"));
-            transaction.success();
-        } finally {
-            transaction.finish();
-        }
-
-        // SNIPPET_END
 
         assertNotNull(db.index().forNodes("characters").get("name", "Abigail Pettigrew").getSingle());
     }
@@ -80,11 +64,6 @@ public class Koan03 {
         IndexHits<Node> species = null;
 
         // YOUR CODE GOES HERE
-        // SNIPPET_START
-
-        species = universe.getDatabase().index().forNodes("species").query("species", "S*n");
-
-        // SNIPPET_END
 
         assertThat(species, containsOnlySpecies("Silurian", "Slitheen", "Sontaran", "Skarasen"));
     }
@@ -100,20 +79,6 @@ public class Koan03 {
         Node cyberleader = retriveCyberleaderFromIndex(db);
 
         // YOUR CODE GOES HERE
-        // SNIPPET_START
-
-        Transaction tx = db.beginTx();
-        try {
-            for (Relationship rel : cyberleader.getRelationships()) {
-                rel.delete();
-            }
-            cyberleader.delete();
-            tx.success();
-        } finally {
-            tx.finish();
-        }
-
-        // SNIPPET_END
 
         assertNull("Cyberleader has not been deleted from the characters index.", retriveCyberleaderFromIndex(db));
 

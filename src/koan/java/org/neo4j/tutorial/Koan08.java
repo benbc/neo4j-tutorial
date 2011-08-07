@@ -42,11 +42,6 @@ public class Koan08 {
 		String cql = null;
 
 		// YOUR CODE GOES HERE
-		// SNIPPET_START
-
-		cql = "START daleks=(Species,species,\"Dalek\") MATCH (daleks)-[:APPEARED_IN]->(episode) RETURN episode";
-
-		// SNIPPET_END
 
 		Query query = parser.parse(cql);
 		ExecutionResult result = engine.execute(query);
@@ -70,15 +65,6 @@ public class Koan08 {
 		ExecutionResult result;
 
 		// YOUR CODE GOES HERE
-		// SNIPPET_START
-
-		cql = "START daleks=(Species,species,\"Dalek\")  MATCH (daleks)-[:APPEARED_IN]->(episode)<-[:USED_IN]-(props)<-[:MEMBER_OF]-(prop)"
-				+ " RETURN prop.prop" + " SKIP 4 LIMIT 1";
-
-		Query query = parser.parse(cql);
-		result = engine.execute(query);
-
-		// SNIPPET_END
 
 		assertEquals("Supreme Dalek", result.javaColumnAs("prop.prop").next());
 	}
@@ -90,13 +76,6 @@ public class Koan08 {
 		String cql = null;
 
 		// YOUR CODE GOES HERE
-		// SNIPPET_START
-
-		cql = "START daleks=(Species,species,\"Dalek\") MATCH (daleks)-[:APPEARED_IN]->(episode)<-[:USED_IN]-(props)<-[:MEMBER_OF]-(prop)"
-				+ "-[:COMPOSED_OF]->(part)-[:ORIGINAL_PROP]->(originalprop) RETURN originalprop.prop, part.part, COUNT(episode.title)"
-				+ " ORDER BY COUNT(episode.title) DESC LIMIT 1";
-
-		// SNIPPET_END
 
 		Query query = parser.parse(cql);
 		ExecutionResult result = engine.execute(query);
