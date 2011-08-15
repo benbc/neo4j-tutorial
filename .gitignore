@@ -12,3 +12,4 @@ target
 .idea
 neo4j-koans.iml
 tools
+*.iml
