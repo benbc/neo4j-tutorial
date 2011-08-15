@@ -38,9 +38,11 @@ public class Koan02 {
 
     @Test
     public void shouldCreateSomePropertiesOnANode() {
-        Node theDoctor = null;
-
-        // YOUR CODE GOES HERE
+        Transaction transaction = db.beginTx();
+        Node theDoctor = db.createNode();
+        theDoctor.setProperty("firstname", "William");
+        theDoctor.setProperty("lastname", "Hartnell");
+        transaction.success();
 
         assertTrue(databaseHelper.nodeExistsInDatabase(theDoctor));
 
