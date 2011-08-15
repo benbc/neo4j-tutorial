@@ -53,12 +53,17 @@ public class Koan02 {
 
     @Test
     public void shouldRelateTwoNodes() {
-        Node theDoctor = null;
-        Node susan = null;
-        Relationship companionRelationship = null;
+        Transaction transaction = db.beginTx();
+        Node theDoctor = db.createNode();
+        Node susan = db.createNode();
+        Relationship companionRelationship = susan.createRelationshipTo(theDoctor, new RelationshipType() {
+            @Override
+            public String name() {
+                return "Companion";
+            }
+        });
+        transaction.success();
 
-        // YOUR CODE GOES HERE
-        
         Relationship storedCompanionRelationship = db.getRelationshipById(companionRelationship.getId());
         assertNotNull(storedCompanionRelationship);
         assertEquals(susan, storedCompanionRelationship.getStartNode());
