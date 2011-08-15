@@ -56,12 +56,8 @@ public class Koan02 {
         Transaction transaction = db.beginTx();
         Node theDoctor = db.createNode();
         Node susan = db.createNode();
-        Relationship companionRelationship = susan.createRelationshipTo(theDoctor, new RelationshipType() {
-            @Override
-            public String name() {
-                return "Companion";
-            }
-        });
+        Relationship companionRelationship =
+                susan.createRelationshipTo(theDoctor, DynamicRelationshipType.withName("COMPANION_OF"));
         transaction.success();
 
         Relationship storedCompanionRelationship = db.getRelationshipById(companionRelationship.getId());
@@ -91,7 +87,6 @@ public class Koan02 {
             assertNotNull(nfe);
         }
     }
-    
     
     @Test
     public void shouldRemoveIncorrectEnemyOfRelationshipBetweenSusanAndTheDoctor() {
