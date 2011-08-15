@@ -29,9 +29,9 @@ public class Koan02 {
     
     @Test
     public void shouldCreateANodeInTheDatabase() {
-        Node node = null;
-
-        // YOUR CODE GOES HERE
+        Transaction transaction = db.beginTx();
+        Node node = db.createNode();
+        transaction.success();
 
         assertTrue(databaseHelper.nodeExistsInDatabase(node));
     }
