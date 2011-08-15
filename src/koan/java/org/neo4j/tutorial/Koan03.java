@@ -35,12 +35,11 @@ public class Koan03 {
 
     @Test
     public void shouldRetrieveCharactersIndexFromTheDatabase() {
-        Index<Node> characters = null;
-
-        // YOUR CODE GOES HERE
+        Index<Node> characters = universe.getDatabase().index().forNodes("characters");
 
         assertNotNull(characters);
-        assertThat(characters, contains("Master", "River Song", "Rose Tyler", "Adam Mitchell", "Jack Harkness", "Mickey Smith", "Donna Noble", "Martha Jones"));
+        assertThat(characters, contains("Master", "River Song", "Rose Tyler", "Adam Mitchell", "Jack Harkness",
+                "Mickey Smith", "Donna Noble", "Martha Jones"));
     }
 
     @Test
@@ -50,7 +49,10 @@ public class Koan03 {
 
         assertNull(db.index().forNodes("characters").get("name", "Abigail Pettigrew").getSingle());
 
-        // YOUR CODE GOES HERE
+        Transaction transaction = db.beginTx();
+        db.index().forNodes("characters").add(abigailPettigrew, "name", "Abigail Pettigrew");
+        transaction.success();
+        transaction.finish();
 
         assertNotNull(db.index().forNodes("characters").get("name", "Abigail Pettigrew").getSingle());
     }
