@@ -95,9 +95,14 @@ public class Koan02 {
     
     @Test
     public void shouldRemoveIncorrectEnemyOfRelationshipBetweenSusanAndTheDoctor() {
-        Node susan = createInaccurateDatabaseWhereSusanIsEnemyOfTheDoctor();  
-     
-        // YOUR CODE GOES HERE
+        Node susan = createInaccurateDatabaseWhereSusanIsEnemyOfTheDoctor();
+
+        Transaction transaction = db.beginTx();
+        Relationship enemy_of = susan.getSingleRelationship(DynamicRelationshipType.withName("ENEMY_OF"), Direction.OUTGOING);
+        enemy_of.delete();
+        transaction.success();
+        transaction.finish();
+
         assertEquals(1, databaseHelper.countRelationships(susan.getRelationships()));
     }
 
