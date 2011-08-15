@@ -74,9 +74,15 @@ public class Koan02 {
     public void shouldRemoveStarTrekInformation() {
         /* Captain Kirk has no business being in our database, so set phasers to kill */
         Node captainKirk = createPollutedDatabaseContainingStarTrekReferences();
-        
-        // YOUR CODE GOES HERE
-        
+
+        Transaction transaction = db.beginTx();
+        for (Relationship relationship : captainKirk.getRelationships()) {
+            relationship.delete();
+        }
+        captainKirk.delete();
+        transaction.success();
+        transaction.finish();
+
         try {
             db.getNodeById(captainKirk.getId());
             fail();
