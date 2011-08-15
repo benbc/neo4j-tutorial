@@ -1,13 +1,9 @@
 package org.neo4j.tutorial;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import java.util.List;
-import java.util.Map;
-
-import javax.ws.rs.core.MediaType;
-
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.config.ClientConfig;
+import com.sun.jersey.api.client.config.DefaultClientConfig;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -22,16 +18,15 @@ import org.neo4j.helpers.collection.MapUtil;
 import org.neo4j.kernel.AbstractGraphDatabase;
 import org.neo4j.server.rest.domain.JsonHelper;
 import org.neo4j.tutorial.server.rest.BatchCommandBuilder;
-import org.neo4j.tutorial.server.rest.RelationshipDescription;
 import org.neo4j.tutorial.server.rest.TraversalDescription;
 import org.neo4j.tutorial.server.rest.domain.EpisodeSearchResult;
 import org.neo4j.tutorial.server.rest.domain.EpisodeSearchResults;
 
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.client.config.ClientConfig;
-import com.sun.jersey.api.client.config.DefaultClientConfig;
+import java.util.List;
+import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * In this Koan we use the REST API to explore the Doctor Who universe.
@@ -141,8 +136,8 @@ public class Koan11 {
 		final PatternNode secondDoctor = new PatternNode();
 		secondDoctor.addPropertyConstraint("incarnation", CommonValueMatchers.exact("Second Doctor"));
 
-		final PatternNode williamHartell = new PatternNode();
-		williamHartell.addPropertyConstraint("actor", CommonValueMatchers.exact("William Hartnell"));
+		final PatternNode williamHartnell = new PatternNode();
+		williamHartnell.addPropertyConstraint("actor", CommonValueMatchers.exact("William Hartnell"));
 
 		final PatternNode richardHurdnall = new PatternNode();
 		richardHurdnall.addPropertyConstraint("actor", CommonValueMatchers.exact("Richard Hurdnall"));
@@ -152,7 +147,7 @@ public class Koan11 {
 
 		firstDoctor.createRelationshipTo(theDoctor, DynamicRelationshipType.withName("INCARNATION_OF"), Direction.OUTGOING);
 		secondDoctor.createRelationshipTo(theDoctor, DynamicRelationshipType.withName("INCARNATION_OF"), Direction.OUTGOING);
-		williamHartell.createRelationshipTo(firstDoctor, DoctorWhoUniverse.PLAYED, Direction.OUTGOING);
+		williamHartnell.createRelationshipTo(firstDoctor, DoctorWhoUniverse.PLAYED, Direction.OUTGOING);
 		richardHurdnall.createRelationshipTo(firstDoctor, DoctorWhoUniverse.PLAYED, Direction.OUTGOING);
 		patrickTroughton.createRelationshipTo(secondDoctor, DoctorWhoUniverse.PLAYED, Direction.OUTGOING);
 

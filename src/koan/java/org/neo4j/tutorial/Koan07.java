@@ -1,19 +1,14 @@
 package org.neo4j.tutorial;
 
-import static org.junit.Assert.assertThat;
-import static org.neo4j.tutorial.matchers.ContainsOnlySpecificActors.containsOnlyActors;
-import static org.neo4j.tutorial.matchers.ContainsSpecificNumberOfNodes.containsNumberOfNodes;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.Path;
-import org.neo4j.graphdb.traversal.Evaluation;
-import org.neo4j.graphdb.traversal.Evaluator;
 import org.neo4j.graphdb.traversal.Traverser;
-import org.neo4j.kernel.Traversal;
+
+import static org.junit.Assert.assertThat;
+import static org.neo4j.tutorial.matchers.ContainsOnlySpecificActors.containsOnlyActors;
+import static org.neo4j.tutorial.matchers.ContainsSpecificNumberOfNodes.containsNumberOfNodes;
 
 /**
  * In this Koan we start using the new traversal framework to find interesting
