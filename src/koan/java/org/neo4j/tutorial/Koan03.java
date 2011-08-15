@@ -3,10 +3,7 @@ package org.neo4j.tutorial;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.NotFoundException;
-import org.neo4j.graphdb.Transaction;
+import org.neo4j.graphdb.*;
 import org.neo4j.graphdb.index.Index;
 import org.neo4j.graphdb.index.IndexHits;
 
@@ -74,7 +71,13 @@ public class Koan03 {
         GraphDatabaseService db = universe.getDatabase();
         Node cyberleader = retrieveCyberleaderFromIndex(db);
 
-        // YOUR CODE GOES HERE
+        Transaction transaction = db.beginTx();
+        for (Relationship relationship : cyberleader.getRelationships()) {
+            relationship.delete();
+        }
+        cyberleader.delete();
+        transaction.success();
+        transaction.finish();
 
         assertNull("Cyberleader has not been deleted from the characters index.", retrieveCyberleaderFromIndex(db));
 
