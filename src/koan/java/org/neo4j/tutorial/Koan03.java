@@ -59,9 +59,7 @@ public class Koan03 {
 
     @Test
     public void shouldFindSpeciesBeginningWithTheLetterSAndEndingWithTheLetterNUsingLuceneQuery() throws Exception {
-        IndexHits<Node> species = null;
-
-        // YOUR CODE GOES HERE
+        IndexHits<Node> species = universe.getDatabase().index().forNodes("species").query("species:S*n");
 
         assertThat(species, containsOnlySpecies("Silurian", "Slitheen", "Sontaran", "Skarasen"));
     }
