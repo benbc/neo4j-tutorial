@@ -98,8 +98,8 @@ public class Koan02 {
         Node susan = createInaccurateDatabaseWhereSusanIsEnemyOfTheDoctor();
 
         Transaction transaction = db.beginTx();
-        Relationship enemy_of = susan.getSingleRelationship(DynamicRelationshipType.withName("ENEMY_OF"), Direction.OUTGOING);
-        enemy_of.delete();
+        Relationship enemyOf = susan.getSingleRelationship(DynamicRelationshipType.withName("ENEMY_OF"), Direction.OUTGOING);
+        enemyOf.delete();
         transaction.success();
         transaction.finish();
 
