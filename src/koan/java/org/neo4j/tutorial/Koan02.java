@@ -32,6 +32,7 @@ public class Koan02 {
         Transaction transaction = db.beginTx();
         Node node = db.createNode();
         transaction.success();
+        transaction.finish();
 
         assertTrue(databaseHelper.nodeExistsInDatabase(node));
     }
@@ -43,6 +44,7 @@ public class Koan02 {
         theDoctor.setProperty("firstname", "William");
         theDoctor.setProperty("lastname", "Hartnell");
         transaction.success();
+        transaction.finish();
 
         assertTrue(databaseHelper.nodeExistsInDatabase(theDoctor));
 
@@ -59,6 +61,7 @@ public class Koan02 {
         Relationship companionRelationship =
                 susan.createRelationshipTo(theDoctor, DynamicRelationshipType.withName("COMPANION_OF"));
         transaction.success();
+        transaction.finish();
 
         Relationship storedCompanionRelationship = db.getRelationshipById(companionRelationship.getId());
         assertNotNull(storedCompanionRelationship);
