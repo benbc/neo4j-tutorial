@@ -1,11 +1,5 @@
 package org.neo4j.tutorial;
 
-import static org.junit.Assert.assertThat;
-import static org.neo4j.tutorial.matchers.CharacterAutoIndexContainsSpecificCharacters.containsSpecificCharacters;
-
-import java.util.HashSet;
-import java.util.Set;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -14,6 +8,12 @@ import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.index.AutoIndexer;
 import org.neo4j.graphdb.index.Index;
 import org.neo4j.graphdb.index.IndexHits;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import static org.junit.Assert.assertThat;
+import static org.neo4j.tutorial.matchers.CharacterAutoIndexContainsSpecificCharacters.containsSpecificCharacters;
 
 
 
@@ -41,9 +41,9 @@ public class Koan04 {
     public void shouldCreateAnAutoIndexForAllTheCharacters() {
 
         Set<String> allCharacterNames = getAllCharacterNames();
-        AutoIndexer<Node> charactersAutoIndex = null;
-
-        // YOUR CODE GOES HERE
+        AutoIndexer<Node> charactersAutoIndex = universe.getDatabase().index().getNodeAutoIndexer();
+        charactersAutoIndex.setEnabled(true);
+        charactersAutoIndex.startAutoIndexingProperty("character-name");
 
         Transaction tx = universe.getDatabase().beginTx();
 
