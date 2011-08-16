@@ -42,7 +42,7 @@ public class Koan05 {
             actor = actor.getSingleRelationship(DoctorWhoUniverse.REGENERATED_TO, Direction.OUTGOING).getEndNode();
             numberOfRegenerations++;
         }
-        assertEquals(11, numberOfRegenerations);
+        assertEquals(10, numberOfRegenerations);
     }
 
     @Test
