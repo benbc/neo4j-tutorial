@@ -5,6 +5,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.index.Index;
 
 import java.util.HashSet;
@@ -49,7 +50,15 @@ public class Koan05 {
     public void shouldFindHumanCompanionsUsingCoreApi() {
         HashSet<Node> humanCompanions = new HashSet<Node>();
 
-        // YOUR CODE GOES HERE
+        for(Relationship relationship : universe.theDoctor().getRelationships(DoctorWhoUniverse.COMPANION_OF)) {
+            Node companion = relationship.getStartNode();
+            if (companion.hasRelationship(DoctorWhoUniverse.IS_A, Direction.OUTGOING)) {
+                Node species = companion.getSingleRelationship(DoctorWhoUniverse.IS_A, Direction.OUTGOING).getEndNode();
+                if (species.getProperty("species").equals("Human")) {
+                    humanCompanions.add(companion);
+                }
+            }
+        }
 
         int numberOfKnownHumanCompanions = 36;
         assertEquals(numberOfKnownHumanCompanions, humanCompanions.size());
