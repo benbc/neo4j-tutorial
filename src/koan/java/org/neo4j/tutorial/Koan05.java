@@ -9,6 +9,7 @@ import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.index.Index;
 
 import java.util.HashSet;
+import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
@@ -69,11 +70,29 @@ public class Koan05 {
     public void shouldFindAllEpisodesWhereRoseTylerFoughtTheDaleks() {
         Index<Node> friendliesIndex = universe.getDatabase().index().forNodes("characters");
         Index<Node> speciesIndex = universe.getDatabase().index().forNodes("species");
-        HashSet<Node> episodesWhereRoseFightsTheDaleks = new HashSet<Node>();
 
-        // YOUR CODE GOES HERE
+        Node rose = friendliesIndex.get("name", "Rose Tyler").getSingle();
+        Node daleks = speciesIndex.get("species", "Dalek").getSingle();
+
+        Set<Node> episodesWithRose = new HashSet<Node>();
+        for (Relationship relationship : rose.getRelationships(DoctorWhoUniverse.APPEARED_IN)) {
+            episodesWithRose.add(relationship.getEndNode());
+        }
+
+        Set<Node> episodesWithDaleks = new HashSet<Node>();
+        for (Relationship relationship : daleks.getRelationships(DoctorWhoUniverse.APPEARED_IN)) {
+            episodesWithDaleks.add(relationship.getEndNode());
+        }
+
+        Set<Node> episodesWhereRoseFightsTheDaleks = intersection(episodesWithRose, episodesWithDaleks);
 
         assertThat(episodesWhereRoseFightsTheDaleks,
                 containsOnlyTitles("Army of Ghosts", "The Stolen Earth", "Doomsday", "Journey's End", "Bad Wolf", "The Parting of the Ways", "Dalek"));
+    }
+
+    private <T> Set<T> intersection(Set<T> first, Set<T> second) {
+        HashSet<T> temp = new HashSet<T>(first);
+        temp.retainAll(second);
+        return temp;
     }
 }
