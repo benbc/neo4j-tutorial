@@ -1,13 +1,13 @@
 package org.neo4j.tutorial.matchers;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.hamcrest.Description;
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.junit.internal.matchers.TypeSafeMatcher;
 import org.neo4j.graphdb.Node;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class ContainsOnlySpecificTitles extends TypeSafeMatcher<Iterable<Node>> {
 
@@ -23,19 +23,24 @@ public class ContainsOnlySpecificTitles extends TypeSafeMatcher<Iterable<Node>> 
 
     @Override
     public void describeTo(Description description) {
-        description.appendText(String.format("Node [%d] does not contain any of the specified titles", failedNode.getId()));
+        String text;
+        if (thereWereNoNodes()) {
+            text = "No nodes found.";
+        } else {
+            text = String.format("Node [%d] does not contain any of the specified titles", failedNode.getId());
+        }
+        description.appendText(text);
     }
 
     @Override
     public boolean matchesSafely(Iterable<Node> candidateNodes) {
-        
         for (Node n : candidateNodes) {
             String property = String.valueOf(n.getProperty("title"));
-            
+
             if (!titles.contains(property)) {
                 failedNode = n;
                 return false;
-            } 
+            }
             titles.remove(property);
         }
 
@@ -45,5 +50,9 @@ public class ContainsOnlySpecificTitles extends TypeSafeMatcher<Iterable<Node>> 
     @Factory
     public static Matcher<Iterable<Node>> containsOnlyTitles(String... titles) {
         return new ContainsOnlySpecificTitles(titles);
+    }
+
+    private boolean thereWereNoNodes() {
+        return !titles.isEmpty() && failedNode == null;
     }
 }
