@@ -3,6 +3,7 @@ package org.neo4j.tutorial;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.index.Index;
 
@@ -34,12 +35,13 @@ public class Koan05 {
 
     @Test
     public void shouldCountTheNumberOfDoctorsRegenerations() {
-
         Index<Node> actorsIndex = universe.getDatabase().index().forNodes("actors");
-        int numberOfRegenerations = 1;
-
-        // YOUR CODE GOES HERE
-
+        Node actor = actorsIndex.query("actor:*Hartnell").getSingle();
+        int numberOfRegenerations = 0;
+        while(actor.hasRelationship(DoctorWhoUniverse.REGENERATED_TO, Direction.OUTGOING)) {
+            actor = actor.getSingleRelationship(DoctorWhoUniverse.REGENERATED_TO, Direction.OUTGOING).getEndNode();
+            numberOfRegenerations++;
+        }
         assertEquals(11, numberOfRegenerations);
     }
 
